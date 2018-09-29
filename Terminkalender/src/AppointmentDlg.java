@@ -1,11 +1,13 @@
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import javax.swing.JOptionPane;
 
 
 public class AppointmentDlg extends javax.swing.JDialog {
     
-    private Appointment app = new Appointment();
+    private Appointment app;
     private boolean ok = false;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH.mm");
     public AppointmentDlg(java.awt.Frame parent, boolean modal) {
@@ -19,6 +21,10 @@ public class AppointmentDlg extends javax.swing.JDialog {
 
     public boolean isOk() {
         return ok;
+    }
+    
+    public void change(String day, String month, String year, String hour, String minute, String text){
+        
     }
     
     @SuppressWarnings("unchecked")
@@ -169,6 +175,11 @@ public class AppointmentDlg extends javax.swing.JDialog {
         getContentPane().add(btAdd, gridBagConstraints);
 
         btCancel.setText("abbrechen");
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
@@ -182,16 +193,41 @@ public class AppointmentDlg extends javax.swing.JDialog {
 
     private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
         String day = tfDay.getText();
+        if(tfDay.getText().length() == 1){
+            day = "0"+tfDay.getText();
+        }
         String month = tfMonth.getText();
+        if(tfMonth.getText().length() == 1){
+            month = "0"+tfMonth.getText();
+        }
         String year = tfYear.getText();
+        
         String hour = tfHour.getText();
+        if(tfHour.getText().length() == 1){
+            hour = "0"+tfHour.getText();
+        }
         String minute = tfMinute.getText();
+        if(tfMinute.getText().length() == 1){
+            minute = "0"+tfMinute.getText();
+        }
         String text = tfText.getText();
         
-        LocalDateTime dt = LocalDateTime.parse(day+month+year+hour+minute, dtf);
+        String date = day+"."+month+"."+year+" - "+hour+"."+minute;
+        try{
+            LocalDateTime dt = LocalDateTime.parse(date, dtf);
+        }catch(DateTimeParseException dtpe){
+            JOptionPane.showMessageDialog(null, "Bitte gib ein gültiges Datum ein");
+        }
         
-        app = new Appointment(dt, text);
+        app = new Appointment(date, text);
+        ok = true;
+        this.dispose();
     }//GEN-LAST:event_btAddActionPerformed
+
+    private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed
+        ok = false;
+        this.dispose();
+    }//GEN-LAST:event_btCancelActionPerformed
 
     /**
      * @param args the command line arguments
