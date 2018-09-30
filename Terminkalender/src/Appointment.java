@@ -13,6 +13,26 @@ public class Appointment implements Serializable{
         this.dt = LocalDateTime.parse(dt,dtf);
         this.text = text;
     }
+
+    public LocalDateTime getDt() {
+        return dt;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public DateTimeFormatter getDtf() {
+        return dtf;
+    }
+
+    public void setDt(LocalDateTime dt) {
+        this.dt = dt;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
     
     @Override
     public String toString(){

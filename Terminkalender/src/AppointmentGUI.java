@@ -1,4 +1,7 @@
 
+import javax.swing.JOptionPane;
+
+
 public class AppointmentGUI extends javax.swing.JFrame {
     
     private AppointmentModell am = new AppointmentModell();
@@ -82,13 +85,32 @@ public class AppointmentGUI extends javax.swing.JFrame {
         for(int i = indices.length-1; i >= 0; i--){
             am.delete(indices[i]);
         }
+        liOutput.clearSelection();
     }//GEN-LAST:event_deleteActionPerformed
 
     private void changeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeActionPerformed
-        Appointment ap = (Appointment) am.getElementAt(liOutput.getSelectedIndex());
-        AppointmentDlg dlg = new AppointmentDlg(this, true);
+        Appointment ap = null;
+        boolean firstex = false;
+        try{
+            ap = (Appointment) am.getElementAt(liOutput.getSelectedIndex());
+        }catch(ArrayIndexOutOfBoundsException oube){
+            JOptionPane.showMessageDialog(null, "Bitte wähle einen Eintrag aus!");
+            firstex = true;
+        }
+        
+        if (liOutput.getSelectedIndices().length == 1){
+            AppointmentDlg dlg = new AppointmentDlg(this, true);
+        dlg.change(ap.getDt().getDayOfMonth()+"", ap.getDt().getMonthValue()+"", ap.getDt().getYear()+"", 
+        ap.getDt().getHour()+"", ap.getDt().getMinute()+"", ap.getText()+"", ap);
         dlg.setVisible(true);
-        dlg.change(day, month, year, hour, minute, text); //TODO
+        
+        if(dlg.isOk()){
+            am.update();
+        }
+        }else if(!firstex){
+            JOptionPane.showMessageDialog(null, "Du kannst nur einen Eintrag bearbeiten!");
+        }
+        
     }//GEN-LAST:event_changeActionPerformed
 
     /**

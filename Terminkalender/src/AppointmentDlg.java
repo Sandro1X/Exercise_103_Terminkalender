@@ -9,6 +9,8 @@ public class AppointmentDlg extends javax.swing.JDialog {
     
     private Appointment app;
     private boolean ok = false;
+    private boolean change = false;
+    private Appointment ap;
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH.mm");
     public AppointmentDlg(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -18,13 +20,25 @@ public class AppointmentDlg extends javax.swing.JDialog {
     public Appointment getApp() {
         return app;
     }
+    
+    public Appointment getAp(){
+        return ap;
+    }
 
     public boolean isOk() {
         return ok;
     }
     
-    public void change(String day, String month, String year, String hour, String minute, String text){
+    public void change(String day, String month, String year, String hour, String minute, String text, Appointment ap){
+        tfDay.setText(day);
+        tfMonth.setText(month);
+        tfYear.setText(year);
+        tfHour.setText(hour);
+        tfMinute.setText(minute);
+        tfText.setText(text);
         
+        this.ap = ap;
+        this.change = true;
     }
     
     @SuppressWarnings("unchecked")
@@ -192,7 +206,8 @@ public class AppointmentDlg extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
-        String day = tfDay.getText();
+        if (!change){
+           String day = tfDay.getText();
         if(tfDay.getText().length() == 1){
             day = "0"+tfDay.getText();
         }
@@ -219,7 +234,38 @@ public class AppointmentDlg extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Bitte gib ein gültiges Datum ein");
         }
         
-        app = new Appointment(date, text);
+        app = new Appointment(date, text); 
+        }else{
+            String day1 = tfDay.getText();
+        if(tfDay.getText().length() == 1){
+            day1 = "0"+tfDay.getText();
+        }
+        String month1 = tfMonth.getText();
+        if(tfMonth.getText().length() == 1){
+            month1 = "0"+tfMonth.getText();
+        }
+        String year1 = tfYear.getText();
+        
+        String hour1 = tfHour.getText();
+        if(tfHour.getText().length() == 1){
+            hour1 = "0"+tfHour.getText();
+        }
+        String minute1 = tfMinute.getText();
+        if(tfMinute.getText().length() == 1){
+            minute1 = "0"+tfMinute.getText();
+        }
+        String text1 = tfText.getText();
+        
+        String date = day1+"."+month1+"."+year1+" - "+hour1+"."+minute1;
+        try{
+            LocalDateTime dt = LocalDateTime.parse(date, dtf);
+            ap.setDt(dt);
+        }catch(DateTimeParseException dtpe){
+            JOptionPane.showMessageDialog(null, "Bitte gib ein gültiges Datum ein");
+        }
+        
+        ap.setText(text1);
+        }
         ok = true;
         this.dispose();
     }//GEN-LAST:event_btAddActionPerformed

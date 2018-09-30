@@ -16,6 +16,10 @@ public class AppointmentModell extends AbstractListModel{
         fireContentsChanged(this, 0, app.size() - 1);
     }
     
+    public void update(){
+        fireContentsChanged(this, 0, app.size()-1);
+    }
+    
     @Override
     public int getSize() {
         return app.size();
