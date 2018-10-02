@@ -49,7 +49,11 @@ public class AppointmentModell extends AbstractListModel{
         }catch(EOFException eof){
            
         }
-        
+    }
+    
+    public void sortByName(){
+        Collections.sort(app);
+        fireContentsChanged(this, 0, app.size() - 1);
     }
     
     @Override
@@ -61,5 +65,4 @@ public class AppointmentModell extends AbstractListModel{
     public Object getElementAt(int index) {
         return app.get(index);
     }
-    
 }

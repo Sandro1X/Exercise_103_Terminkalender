@@ -30,6 +30,7 @@ public class AppointmentGUI extends javax.swing.JFrame {
         add = new javax.swing.JMenuItem();
         delete = new javax.swing.JMenuItem();
         change = new javax.swing.JMenuItem();
+        sortByName = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         liOutput = new javax.swing.JList<>();
 
@@ -58,6 +59,14 @@ public class AppointmentGUI extends javax.swing.JFrame {
             }
         });
         jMenu1.add(change);
+
+        sortByName.setText("Nach Namen sortieren");
+        sortByName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortByNameActionPerformed(evt);
+            }
+        });
+        jMenu1.add(sortByName);
 
         jPopupMenu1.add(jMenu1);
 
@@ -133,10 +142,13 @@ public class AppointmentGUI extends javax.swing.JFrame {
         try {
             am.safe(file);
         } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(null, "File error!");
-ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File error!");
         }
     }//GEN-LAST:event_formWindowClosing
+
+    private void sortByNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByNameActionPerformed
+        am.sortByName();
+    }//GEN-LAST:event_sortByNameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,5 +197,6 @@ ex.printStackTrace();
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> liOutput;
+    private javax.swing.JMenuItem sortByName;
     // End of variables declaration//GEN-END:variables
 }
