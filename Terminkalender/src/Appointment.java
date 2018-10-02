@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 public class Appointment implements Serializable{
     private LocalDateTime dt;
     private String text;
-    private transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH.mm");
+    private static transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH.mm");
     
     public Appointment(String dt, String text) {
         this.dt = LocalDateTime.parse(dt,dtf);

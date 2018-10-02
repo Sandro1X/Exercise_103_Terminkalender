@@ -1,4 +1,5 @@
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,7 +31,9 @@ public class AppointmentModell extends AbstractListModel{
     public void safe(File f)throws Exception{
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f));
         
-        oos.writeObject(app);
+        for (Appointment a : app) {
+            oos.writeObject(a);
+        }
         
         oos.flush();
         oos.close();
@@ -38,8 +41,15 @@ public class AppointmentModell extends AbstractListModel{
     
     public void load(File f)throws Exception{
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f));
+        try{
+            Appointment ap;
+        while((ap = (Appointment) ois.readObject()) != null){
+            app.add(ap);
+        }
+        }catch(EOFException eof){
+           
+        }
         
-        app = (ArrayList<Appointment>) ois.readObject();
     }
     
     @Override

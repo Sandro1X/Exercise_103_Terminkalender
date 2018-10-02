@@ -133,7 +133,8 @@ public class AppointmentGUI extends javax.swing.JFrame {
         try {
             am.safe(file);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "File error!");
+//            JOptionPane.showMessageDialog(null, "File error!");
+ex.printStackTrace();
         }
     }//GEN-LAST:event_formWindowClosing
 
