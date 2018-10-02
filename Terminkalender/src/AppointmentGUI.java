@@ -1,14 +1,25 @@
 
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
 public class AppointmentGUI extends javax.swing.JFrame {
     
     private AppointmentModell am = new AppointmentModell();
-   
-    public AppointmentGUI() {
+    private File file = new File("src\\data.bin");
+    
+    public AppointmentGUI() throws Exception {
         initComponents();
         liOutput.setModel(am);
+       
+        try{    
+            am.load(file);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -51,6 +62,11 @@ public class AppointmentGUI extends javax.swing.JFrame {
         jPopupMenu1.add(jMenu1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         liOutput.setComponentPopupMenu(jPopupMenu1);
         jScrollPane1.setViewportView(liOutput);
@@ -113,6 +129,14 @@ public class AppointmentGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_changeActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            am.safe(file);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "File error!");
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -143,7 +167,11 @@ public class AppointmentGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AppointmentGUI().setVisible(true);
+                try {
+                    new AppointmentGUI().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(AppointmentGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
